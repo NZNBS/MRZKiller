@@ -55,7 +55,7 @@ def runAllatori(variant) {
         rename('allatori.xml', "allatori-${variant.name}.xml")
     }
 
-    new File("${variant.javaCompileProvider.get().destinationDir}-obfuscated").deleteDir()
+   /* new File("${variant.javaCompileProvider.get().destinationDir}-obfuscated").deleteDir()
     javaexec {
         main = 'com.allatori.Obfuscate'
         classpath = files("$rootDir/allatori/allatori.jar")
@@ -63,7 +63,7 @@ def runAllatori(variant) {
     }
     new File("${variant.javaCompileProvider.get().destinationDir}").deleteDir()
     new File("${variant.javaCompileProvider.get().destinationDir}-obfuscated").renameTo(new File("${variant.javaCompileProvider.get().destinationDir}"))
-
+*/
     // Kotlin support
     // new File("${buildDir}/tmp/kotlin-classes/${variant.name}").deleteDir()
     // new File("${buildDir}/tmp/kotlin-classes/${variant.name}-obfuscated").renameTo(new File("${buildDir}/tmp/kotlin-classes/${variant.name}"))
