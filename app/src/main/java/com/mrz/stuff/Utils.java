@@ -1,12 +1,15 @@
 package com.mrz.stuff;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.ProgressBar;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -260,8 +263,7 @@ public class Utils {
             file.delete();
         }
     }
-
-    public static byte[] loaderDecrypt(byte[] srcdata){
+    public static byte[] loaderDecrypt(byte[] srcdata) {
         try {
             SecretKeySpec skey = new SecretKeySpec("22P9ULFDKPJ70G46".getBytes(), "AES");
             @SuppressLint("GetInstance") Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
