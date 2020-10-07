@@ -11,12 +11,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.MRZVPActivity">
-            <action android:name="android.intent.action.GET_CONTENT" />
+            <intent-filter>
+                <action android:name="android.intent.action.GET_CONTENT" />
 
-            <category android:name="android.intent.category.DEFAULT" />
-            <category android:name="android.intent.category.OPENABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.OPENABLE" />
 
-            <data android:mimeType="*/*" />
+                <data android:mimeType="*/*" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".activity.MRZActivity"
@@ -25,8 +27,10 @@
             <intent-filter android:label="MRZKiller DRT">
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.GET_CONTENT" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.OPENABLE" />
+
                 <data android:mimeType="*/*" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
