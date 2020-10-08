@@ -55,7 +55,7 @@ def runAllatori(variant) {
         rename('allatori.xml', "allatori-${variant.name}.xml")
     }
 
-   /* new File("${variant.javaCompileProvider.get().destinationDir}-obfuscated").deleteDir()
+   new File("${variant.javaCompileProvider.get().destinationDir}-obfuscated").deleteDir()
     javaexec {
         main = 'com.allatori.Obfuscate'
         classpath = files("$rootDir/allatori/allatori.jar")
@@ -63,8 +63,27 @@ def runAllatori(variant) {
     }
     new File("${variant.javaCompileProvider.get().destinationDir}").deleteDir()
     new File("${variant.javaCompileProvider.get().destinationDir}-obfuscated").renameTo(new File("${variant.javaCompileProvider.get().destinationDir}"))
-*/
-    // Kotlin support
+
     // new File("${buildDir}/tmp/kotlin-classes/${variant.name}").deleteDir()
     // new File("${buildDir}/tmp/kotlin-classes/${variant.name}-obfuscated").renameTo(new File("${buildDir}/tmp/kotlin-classes/${variant.name}"))
+}
+
+apply plugin: "com.bytedance.android.aabResGuard"
+aabResGuard {
+    mappingFile = file("mapping.txt").toPath() // Mapping file used for incremental obfuscation
+    whiteList = [ // White list rules
+                  "*.R.raw.*",
+                  "*.R.drawable.icon"
+    ]
+    obfuscatedBundleFileName = "duplicated-app.aab" // Obfuscated file name, must end with '.aab'
+    mergeDuplicatedRes = true // Whether to allow the merge of duplicate resources
+    enableFilterFiles = true // Whether to allow filter files
+    filterList = [ // file filter rules
+                   "*/arm64-v8a/*",
+                   "META-INF/*"
+    ]
+
+    enableFilterStrings = false // switch of filter strings
+    unusedStringPath = file("unused.txt").toPath() // strings will be filtered in this file
+    languageWhiteList = ["en", "zh"] // keep en,en-xx,zh,zh-xx etc. remove others.
 }

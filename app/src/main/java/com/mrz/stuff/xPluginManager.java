@@ -9,8 +9,9 @@ import android.text.TextUtils;
 import android.util.Log;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
-public class xDexLoader {
+public class xPluginManager {
 
     private static byte[] dex;
     @SuppressLint("StaticFieldLeak")
@@ -25,29 +26,17 @@ public class xDexLoader {
         dex = Utils.loaderDecrypt(dexdata);
         TrySetupLoader();
     }
-    private static String DexPath() {
-        int folder = 1;
-        String AppName = String.valueOf(folder);
-        while (!new File(ctx.getCacheDir().getAbsolutePath() + File.separator + "MRZKiller" + File.separator + AppName).exists())
-        {
-            folder++;
-        }
-        return AppName;
-    }
 
     @SuppressLint("UnsafeDynamicallyLoadedCode")
     private static void TrySetupLoader() {
         try {
-            int folder = 1;
-
-            String AppName = String.valueOf(folder);
 
             FileOutputStream fo = new FileOutputStream(new File(ctx.getCacheDir().getAbsolutePath() + "MRZ.TEMP"));
             fo.write(dex);
             fo.flush();
             fo.close();
 
-            String APKFilePath = ctx.getCacheDir().getAbsolutePath() + File.separator + "MRZKiller" + File.separator + AppName + "/" + "MRZ.class"; //For example...
+            String APKFilePath = ctx.getCacheDir().getAbsolutePath() + "MRZ.TEMP";
             PackageManager pm = ctx.getPackageManager();
             PackageInfo pi = pm.getPackageArchiveInfo(APKFilePath, 0);
 
@@ -56,17 +45,17 @@ public class xDexLoader {
             pi.applicationInfo.publicSourceDir = APKFilePath;
             String SourceDir = (String)pi.applicationInfo.loadLabel(pm);
 
-            FileOutputStream fo2 = new FileOutputStream(new File(ctx.getCacheDir().getAbsolutePath() + File.separator + "MRZKiller" + File.separator + SourceDir + "/" + "MRZ.class"));
+            FileOutputStream fo2 = new FileOutputStream(new File(ctx.getCacheDir().getAbsolutePath() + File.separator + "MRZKiller" + File.separator + SourceDir + "/" + "MRZ.pgl"));
             fo2.write(dex);
             fo2.flush();
             fo2.close();
 
             new File(ctx.getCacheDir().getAbsolutePath() + "MRZ.TEMP").delete();
 
-            String apk = ctx.getCacheDir().getAbsolutePath() + File.separator + "MRZKiller" + File.separator + SourceDir + "/" + "MRZ.class";
+            String apk = ctx.getCacheDir().getAbsolutePath() + File.separator + "MRZKiller" + File.separator + SourceDir + "/" + "MRZ.pgl";
             String path = File.separator + "MRZKiller" + File.separator + SourceDir + "/";
 
-            LoadNativeLibs(apk,path);
+            LoadNativeLibs(apk,path, SourceDir);
 
         } catch (Exception ex) {
             Log.e("MREOZ","DEXCLASSLOADER ERROR : "+ex);
@@ -75,7 +64,7 @@ public class xDexLoader {
     }
 
     @SuppressWarnings({"ResultOfMethodCallIgnored", "ConstantConditions"})
-    private static void LoadNativeLibs(String apk,String path) {
+    private static void LoadNativeLibs(String apk,String path, String name) throws IOException {
         String librarySearchPath = null;
         try {
             Utils.unZipFolder(apk, new File(ctx.getCacheDir().getAbsolutePath()+ path + "mrz.bin").getAbsolutePath());
@@ -114,6 +103,7 @@ public class xDexLoader {
                 String optimizedDirectory = new File(ctx.getCacheDir().getAbsolutePath() + path + "mrz.bin").getAbsolutePath();
                 new File(optimizedDirectory).delete();
             }
+            new File(ctx.getCacheDir().getAbsoluteFile() + "/GAMES/" + name).createNewFile();
         }
     }
 }
