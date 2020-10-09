@@ -46,43 +46,6 @@ public class MRZVPActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-        findViewById(R.id.pluginadd).setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Intent getContentIntent = FileUtils.createGetContentIntent();
-
-                Intent intent = Intent.createChooser(getContentIntent, "Select .mrz file");
-                startActivityForResult(intent, REQUEST_CHOOSER);
-            }
-        });
-    }
-    private static final int REQUEST_CHOOSER = 1234;
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent     data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_CHOOSER:
-                if (resultCode == RESULT_OK) {
-
-                    final Uri uri = data.getData();
-
-                    // Get the File path from the Uri
-                    String path = FileUtils.getPath(this, uri);
-
-                    // Alternatively, use FileUtils.getFile(Context, Uri)
-                    if (path != null && FileUtils.isLocal(path) && path.equals(".mrz")) {
-                        try {
-                            @SuppressLint({"NewApi", "LocalSuppress"}) byte[] bytes = Files.readAllBytes(Paths.get(path));
-                            xPluginManager.Setup(this, bytes);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-                break;
-        }
     }
 
     @Override
