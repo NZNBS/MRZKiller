@@ -39,7 +39,6 @@ import java.nio.file.Paths;
 
 public class MRZTest extends AppCompatActivity {
 
-    //For our image a little converter
     private int convertDipToPixels(int i) {
         return (int) ((((float) i) * getResources().getDisplayMetrics().density) + 0.5f);
     }
