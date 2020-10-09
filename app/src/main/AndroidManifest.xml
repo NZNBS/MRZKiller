@@ -21,14 +21,12 @@
         <activity android:name=".activity.MRZVPActivity" />
         <activity
             android:name=".activity.MRZTest"
-            android:label="MRZKiller NO-ROOT">
-            <intent-filter android:label="MRZKiller VSP">
-                <action android:name="android.intent.action.GET_CONTENT" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.OPENABLE" />
-
-                <data android:mimeType="*/*" />
+            android:label="MRZKiller NO-ROOT"
+            android:screenOrientation="sensorLandscape"
+            tools:ignore="LockedOrientationActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
