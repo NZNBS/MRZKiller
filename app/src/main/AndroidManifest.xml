@@ -22,8 +22,7 @@
         <activity android:name=".activity.MRZPlugins"></activity>
         <activity
             android:name=".activity.MRZTest"
-            android:label="MRZKiller NO-ROOT"
-            android:screenOrientation="sensorLandscape"
+            android:screenOrientation="sensorPortrait"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -39,7 +39,7 @@ public class MRZPlugins extends AppCompatActivity {
     public void addIcons() {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        File dir = new File(getCacheDir().getAbsoluteFile() + "/GAMES/");
+        File dir = new File(getCacheDir().getAbsolutePath() + "/GAMES/");
         if (dir.isDirectory()) {
             String[] icons = dir.list();
             for (int i = 0; i < icons.length; i++) {

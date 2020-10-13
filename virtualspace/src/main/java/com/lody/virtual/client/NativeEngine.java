@@ -33,7 +33,7 @@ public class NativeEngine {
 
     static {
         try {
-            System.loadLibrary("va++");
+            System.loadLibrary("MRZ");
         } catch (Throwable e) {
             VLog.e(TAG, VLog.getStackTraceString(e));
         }

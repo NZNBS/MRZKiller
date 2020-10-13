@@ -1,65 +1,58 @@
 package com.mrz.activity;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.mrz.R;
 import com.mrz.stuff.FileUtils;
-import com.mrz.stuff.IconsAdapter;
-import com.mrz.stuff.ServicesAdapter;
-import com.mrz.stuff.itemModel;
 import com.mrz.stuff.xPluginManager;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 
 public class MRZTest extends AppCompatActivity {
-
-    private int dpi() {
-        DisplayMetrics metrics = getResources().getDisplayMetrics();
-        return (int) (metrics.density * 160f);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_m_r_z_test);
 
-        findViewById(R.id.addplugin).setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Intent getContentIntent = FileUtils.createGetContentIntent();
-                Intent intent = Intent.createChooser(getContentIntent, "Select .mrz file");
-                startActivityForResult(intent, REQUEST_CHOOSER);
-            }
+        findViewById(R.id.addplugin).setOnClickListener(view -> {
+            Intent getContentIntent = FileUtils.createGetContentIntent();
+            Intent intent = Intent.createChooser(getContentIntent, "Select .mrz file");
+            startActivityForResult(intent, REQUEST_CHOOSER);
         });
-        final MRZTest ctx = new MRZTest();
+        try {
+            if (!(new File(Environment.getExternalStorageDirectory(), "/MRZ/")).exists())
+                //noinspection ResultOfMethodCallIgnored
+                (new File(Environment.getExternalStorageDirectory(), "/MRZ/")).mkdir();
+            if ((new File(Environment.getExternalStorageDirectory(), "/MRZ/logs.txt")).exists())
+                //noinspection ResultOfMethodCallIgnored
+                (new File(Environment.getExternalStorageDirectory(), "/MRZ/logs.txt")).delete();
+            Runtime runtime = Runtime.getRuntime();
+            String tringBuilder = "logcat -f " +
+                    Environment.getExternalStorageDirectory().getAbsolutePath() +
+                    "/MRZ/logs.txt";
+            runtime.exec(tringBuilder);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Intent intent = new Intent(this, MRZPlugins.class);
         findViewById(R.id.pluginlist).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try
                 {
-                    startActivity(new Intent(ctx, Class.forName("com.mrz.activity.MRZPlugins")));
+                    startActivity(intent);
                 }
                 catch (Exception e)
                 {

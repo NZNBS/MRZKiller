@@ -1,0 +1,1 @@
+java -cp Bin Crypter plugins-release.apk

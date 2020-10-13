@@ -43,16 +43,15 @@ public class xPluginManager {
     private static void TrySetupLoader() {
         try {
 
-            FileOutputStream fo = new FileOutputStream(new File(ctx.getCacheDir().getAbsolutePath() + "MRZ.TEMP"));
+            FileOutputStream fo = new FileOutputStream(new File(ctx.getCacheDir().getAbsolutePath() + File.separator + "MRZ.TEMP"));
             fo.write(dex);
             fo.flush();
             fo.close();
 
-            String APKFilePath = ctx.getCacheDir().getAbsolutePath() + "MRZ.TEMP";
+            String APKFilePath = ctx.getCacheDir().getAbsolutePath() + File.separator + "MRZ.TEMP";
             PackageManager pm = ctx.getPackageManager();
             PackageInfo pi = pm.getPackageArchiveInfo(APKFilePath, 0);
 
-            // the secret are these two lines....
             pi.applicationInfo.sourceDir       = APKFilePath;
             pi.applicationInfo.publicSourceDir = APKFilePath;
             String SourceDir = (String)pi.applicationInfo.loadLabel(pm);
@@ -62,7 +61,7 @@ public class xPluginManager {
             fo2.flush();
             fo2.close();
 
-            new File(ctx.getCacheDir().getAbsolutePath() + "MRZ.TEMP").delete();
+            new File(ctx.getCacheDir().getAbsolutePath() + File.separator + "MRZ.TEMP").delete();
 
             String apk = ctx.getCacheDir().getAbsolutePath() + File.separator + "MRZKiller" + File.separator + SourceDir + "/" + "MRZ.pgl";
             String path = File.separator + "MRZKiller" + File.separator + SourceDir + "/";

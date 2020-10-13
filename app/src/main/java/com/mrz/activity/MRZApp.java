@@ -2,8 +2,11 @@ package com.mrz.activity;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Environment;
 
 import com.lody.virtual.client.core.VirtualCore;
+
+import java.io.File;
 
 public class MRZApp extends Application {
 
@@ -11,10 +14,8 @@ public class MRZApp extends Application {
         super.attachBaseContext(paramContext);
         try {
             VirtualCore.get().startup(paramContext);
-            return;
         } catch (Throwable paramConte) {
             paramConte.printStackTrace();
-            return;
         }
     }
 }
