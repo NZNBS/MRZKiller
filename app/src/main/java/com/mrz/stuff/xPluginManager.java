@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.lody.virtual.client.core.VirtualCore;
 
@@ -211,13 +212,16 @@ public class xPluginManager {
                     Thread.sleep(700L);
                 }
                 ((Activity)ctx).runOnUiThread(new Runnable() {
-                    public void run() { pd.dismiss(); }
+                    public void run() { pd.dismiss();
+                        Toast.makeText(ctx,"The game is avariable in Plugin list", Toast.LENGTH_LONG).show();
+                    }
                 });
                 return;
             } catch (Exception exception) {
                 exception.printStackTrace();
                 ((Activity)ctx).runOnUiThread(new Runnable() {
-                    public void run() { pd.dismiss(); }
+                    public void run() { pd.dismiss();
+                        Toast.makeText(ctx,"The game is avariable in Plugin list", Toast.LENGTH_LONG).show();}
                 });
                 return;
             }
