@@ -15,7 +15,7 @@ import javax.crypto.spec.SecretKeySpec;
 class Crypter {
 	public static void main(String[] args){
 		try {
-			String out = "PUBG.kmods";
+			String out = "yourgame-PLUGIN.mrz";
 			File SrcFile = new File(args[0]);		
 			byte[] arr = crypter(readFileBytes(SrcFile));
 			FileOutputStream fo = new FileOutputStream(out);
@@ -23,10 +23,7 @@ class Crypter {
 			fo.flush();
 			fo.close();
 			System.out.println("Out File: " + out);
-			System.out.println("Made By Kuldip Patel");
 		} catch (Exception e) {
-			System.out.println("Usage: Crypter <file-name>");
-			System.out.println("Made By Kuldip Patel");
 		}
     }
 	private static byte[] crypter(byte[] srcdata){

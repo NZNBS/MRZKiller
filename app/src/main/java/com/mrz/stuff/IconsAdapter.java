@@ -1,6 +1,8 @@
 package com.mrz.stuff;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.View;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -32,7 +34,8 @@ public class IconsAdapter extends RecyclerView.Adapter<IconsAdapter.viewHolder> 
     @Override
     public  void onBindViewHolder(IconsAdapter.viewHolder viewHolder,int position) {
         viewHolder.iconName.setText(arrayList.get(position).getName());
-        viewHolder.icon.setImageDrawable(arrayList.get(position).getImage());
+        byte[] decode = Base64.decode(arrayList.get(position).getImage(), 0);
+        viewHolder.icon.setImageBitmap(BitmapFactory.decodeByteArray(decode, 0, decode.length));
     }
 
     @Override

@@ -37,28 +37,28 @@ void *antiLeech(void *) {
 extern "C" {
 JNIEXPORT jboolean
 JNICALL
-Java_com_mrz_floater_Loader_EnableSounds(JNIEnv *env, jobject thiz) {
+Java_com_mrz_loader_Loader_EnableSounds(JNIEnv *env, jobject thiz) {
     //Note: some games don't like sounds, which caused crash. Please turn it off if it happens
     return true;
 }
 
 JNIEXPORT jstring
 JNICALL
-Java_com_mrz_floater_Loader_Title(JNIEnv *env, jobject thiz) {
+Java_com_mrz_loader_Loader_Title(JNIEnv *env, jobject thiz) {
     titleValid = true;
     return env->NewStringUTF(OBFUSCATE("Modded by (yourname)"));
 }
 
 JNIEXPORT jstring
 JNICALL
-Java_com_mrz_floater_Loader_Heading(JNIEnv *env, jobject thiz) {
+Java_com_mrz_loader_Loader_Heading(JNIEnv *env, jobject thiz) {
     headingValid = true;
     return env->NewStringUTF(OBFUSCATE("Put your website or notes here"));
 }
 
 JNIEXPORT jstring
 JNICALL
-Java_com_mrz_floater_Loader_Icon(JNIEnv *env, jobject thiz) {
+Java_com_mrz_loader_Loader_Icon(JNIEnv *env, jobject thiz) {
     iconValid = true;
 
     //Use https://www.base64encode.org/ to encode your image to base64
@@ -68,7 +68,7 @@ Java_com_mrz_floater_Loader_Icon(JNIEnv *env, jobject thiz) {
 
 JNIEXPORT jstring
 JNICALL
-Java_com_mrz_floater_Loader_IconWebViewData(JNIEnv *env, jobject thiz) {
+Java_com_mrz_loader_Loader_IconWebViewData(JNIEnv *env, jobject thiz) {
     iconValid = true;
 
     //Upload your image or gif on imgur.com or other sites
@@ -94,13 +94,13 @@ Java_com_mrz_floater_Loader_IconWebViewData(JNIEnv *env, jobject thiz) {
 
 JNIEXPORT jint
 JNICALL
-Java_com_mrz_floater_Loader_IconSize(JNIEnv *env, jobject thiz) {
+Java_com_mrz_loader_Loader_IconSize(JNIEnv *env, jobject thiz) {
     return 70;
 }
 
 JNIEXPORT jobjectArray
 JNICALL
-Java_com_mrz_floater_Loader_getFeatureList(JNIEnv *env, jobject activityObject) {
+Java_com_mrz_loader_Loader_getFeatureList(JNIEnv *env, jobject activityObject) {
     jobjectArray ret;
     featureListValid = true;
 

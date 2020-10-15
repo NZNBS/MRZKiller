@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.mrz",
+  "applicationId": "com.mrz.loader",
   "variantName": "release",
   "elements": [
     {
@@ -14,7 +14,7 @@
       "versionCode": 1,
       "versionName": "1.0",
       "enabled": true,
-      "outputFile": "app-release.apk"
+      "outputFile": "plugins-release.apk"
     }
   ]
 }

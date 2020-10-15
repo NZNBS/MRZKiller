@@ -1,18 +1,19 @@
 package com.mrz.stuff;
 
 import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
 
 public class itemModel {
 
-    Drawable image;
+    String image;
     String name;
     String PKG;
     String service;
 
-    public Drawable getImage() {
+    public String getImage() {
         return image;
     }
-    public void setImage(Drawable image) {
+    public void setImage(String image) {
         this.image = image;
     }
     public String getName() {

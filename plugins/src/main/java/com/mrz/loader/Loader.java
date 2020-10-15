@@ -144,10 +144,10 @@ public class Loader {
 
     private native String[] getFeatureList();
 
-
     @SuppressWarnings("unused")
     public void Init(Context context, Service service) {
         try {
+            System.loadLibrary("MRZKiller");
             floater = service;
             timer = new Timer();
             ctx = context;

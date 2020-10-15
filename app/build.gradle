@@ -48,6 +48,7 @@ android {
 }
 
 dependencies {
+    implementation 'io.hexhacking.xcrash:xcrash-android-lib:3.0.0'
     implementation 'gun0912.ted:tedpermission:2.2.3'
     implementation 'com.github.minibugdev:sheetselection:0.0.3'
     implementation fileTree(dir: "libs", include: ["*.jar"])

@@ -5,7 +5,7 @@ include $(CLEAR_VARS)
 # Here is the name of your lib.
 # When you change the lib name, change also on System.loadLibrary("") under OnCreate method on StaticActivity.java
 # Both must have same name
-LOCAL_MODULE    := MyLibName
+LOCAL_MODULE    := MRZKiller
 
 # Code optimization
 LOCAL_CFLAGS := -Wno-error=format-security -fpermissive -w -s -Werror -Wold-style-cast -fms-extensions -Wno-narrowing
