@@ -41,7 +41,6 @@ public class MRZTest extends AppCompatActivity {
             PermissionListener permissionlistener = new PermissionListener() {
                 @Override
                 public void onPermissionGranted() {
-                    Toast.makeText(MRZTest.this, "Permission Granted", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -87,22 +86,11 @@ public class MRZTest extends AppCompatActivity {
         switch (requestCode) {
             case 152:
                 if (resultCode == RESULT_OK) {
-
                     final Uri uri = data.getData();
-
-                    // Get the File path from the Uri
                     String path = FileUtils.getPath(this, uri);
-
-                    // Alternatively, use FileUtils.getFile(Context, Uri)
-                    if (path.equals("-PLUGIN.mrz")) {
-                        try {
-                            @SuppressLint({"NewApi", "LocalSuppress"}) byte[] bytes = Files.readAllBytes(Paths.get(path));
-                            xPluginManager.Setup(this, bytes);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    } else{
-                        Toast.makeText(this,"The select file is not soported",Toast.LENGTH_LONG).show();
+                    if (path != null && FileUtils.isLocal(path)) {
+                        File file = new File(path);
+                        xPluginManager.Setup(this, file);
                     }
                 }
                 break;

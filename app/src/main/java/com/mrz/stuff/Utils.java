@@ -186,6 +186,8 @@ public class Utils {
 
                         if(!signapk.equals(GetSignature())){
 
+                            Log.e("SIGNATURE","The signature is incorrect !!THIS LEETH!!");
+
                             System.exit(0);
                         }
 

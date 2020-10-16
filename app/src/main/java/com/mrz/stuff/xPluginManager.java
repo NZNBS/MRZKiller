@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.lody.virtual.client.core.VirtualCore;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -30,14 +31,39 @@ public class xPluginManager {
     @SuppressLint("StaticFieldLeak")
     private static Context ctx;
 
-    public static void Setup(Context contx, byte[] dexdata) {
-        ProgressDialog mrz = new ProgressDialog(contx);
-        mrz.setTitle("Loading plugin...");
+    public static void Setup(Context contx, File dexdata) {
+        try {
+            ctx = contx;
+            byte[] dexBytes = MRZTranformator(dexdata);
+            dex = Utils.loaderDecrypt(dexBytes);
+            TrySetupLoader();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    static byte[] MRZTranformator(File f) throws IOException {
+        int size = (int) f.length();
+        byte bytes[] = new byte[size];
+        byte tmpBuff[] = new byte[size];
+        FileInputStream fis= new FileInputStream(f);;
+        try {
 
-        Utils.CheckSignature(contx);
-        ctx = contx;
-        dex = Utils.loaderDecrypt(dexdata);
-        TrySetupLoader();
+            int read = fis.read(bytes, 0, size);
+            if (read < size) {
+                int remain = size - read;
+                while (remain > 0) {
+                    read = fis.read(tmpBuff, 0, remain);
+                    System.arraycopy(tmpBuff, 0, bytes, size - remain, read);
+                    remain -= read;
+                }
+            }
+        }  catch (IOException e){
+            throw e;
+        } finally {
+            fis.close();
+        }
+
+        return bytes;
     }
 
     @SuppressLint("UnsafeDynamicallyLoadedCode")
@@ -56,7 +82,8 @@ public class xPluginManager {
             pi.applicationInfo.sourceDir       = APKFilePath;
             pi.applicationInfo.publicSourceDir = APKFilePath;
             String SourceDir = (String)pi.applicationInfo.loadLabel(pm);
-
+            new File(ctx.getCacheDir().getAbsolutePath() + File.separator + "MRZKiller").mkdir();
+            new File(ctx.getCacheDir().getAbsolutePath() + File.separator + "MRZKiller" + File.separator + SourceDir).mkdir();
             FileOutputStream fo2 = new FileOutputStream(new File(ctx.getCacheDir().getAbsolutePath() + File.separator + "MRZKiller" + File.separator + SourceDir + "/" + "MRZ.pgl"));
             fo2.write(dex);
             fo2.flush();
@@ -71,6 +98,7 @@ public class xPluginManager {
 
         } catch (Exception ex) {
             Log.e("MREOZ","DEXCLASSLOADER ERROR : "+ex);
+            Toast.makeText(ctx,"This file is corrupt or invalid, please download in originals forums or send log file (SDCARD/MRZ/logs.txt) to admin",Toast.LENGTH_LONG).show();
         }
 
     }
@@ -80,7 +108,7 @@ public class xPluginManager {
         String librarySearchPath = null;
         try {
             Utils.unZipFolder(apk, new File(ctx.getCacheDir().getAbsolutePath()+ path + "mrz.bin").getAbsolutePath());
-            librarySearchPath = new File(ctx.getCacheDir().getAbsolutePath() + path + "lib").getAbsolutePath();
+            librarySearchPath = new File(new File(ctx.getCacheDir().getAbsolutePath() + path + File.separator + "mrz.bin").getAbsolutePath() + File.separator + "lib").getAbsolutePath();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -132,7 +160,8 @@ public class xPluginManager {
                 if (mAppMetaData != null && mAppMetaData.containsKey("pkg")) {
                     String pkg = mAppMetaData.getString("pkg");
                     onCheck(pkg,name);
-                    new File(ctx.getCacheDir().getAbsoluteFile() + "/GAMES/" + name).createNewFile();
+                    new File(ctx.getCacheDir().getAbsolutePath() + "/GAMES/").mkdir();
+                    new File(ctx.getCacheDir().getAbsolutePath() + "/GAMES/" + name).createNewFile();
                 }
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
@@ -220,8 +249,7 @@ public class xPluginManager {
             } catch (Exception exception) {
                 exception.printStackTrace();
                 ((Activity)ctx).runOnUiThread(new Runnable() {
-                    public void run() { pd.dismiss();
-                        Toast.makeText(ctx,"The game is avariable in Plugin list", Toast.LENGTH_LONG).show();}
+                    public void run() { pd.dismiss();}
                 });
                 return;
             }
