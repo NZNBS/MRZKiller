@@ -40,8 +40,9 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.viewHo
     @Override
     public  void onBindViewHolder(ServicesAdapter.viewHolder holder, final int position) {
         holder.service.setText(arrayList.get(position).getService());
+        holder.autor.setText(arrayList.get(position).getAUTOR());
         holder.delete.setOnClickListener(v -> {
-            File mrz = new File(context.getCacheDir().getAbsolutePath() + File.separator + "MRZKiller" + File.separator + arrayList.get(position).getService());
+            File mrz = new File(context.getCacheDir().getAbsolutePath() + File.separator + "MRZKiller" + File.separator + arrayList.get(position).getService() + File.separator);
             if (mrz.isDirectory())
             {
                 String[] children = mrz.list();
@@ -68,12 +69,13 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.viewHo
     }
 
     public class viewHolder extends RecyclerView.ViewHolder {
-        TextView service;
+        TextView service, autor;
         Button start,delete;
         ImageView img;
 
         public viewHolder(View itemView) {
             super(itemView);
+            autor = (TextView) itemView.findViewById(R.id.autor);
             service = (TextView) itemView.findViewById(R.id.service);
             start = (Button) itemView.findViewById(R.id.start);
             delete = (Button) itemView.findViewById(R.id.delete);

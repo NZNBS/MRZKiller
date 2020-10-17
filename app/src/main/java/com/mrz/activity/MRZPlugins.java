@@ -60,11 +60,13 @@ public class MRZPlugins extends AppCompatActivity {
                         Field mAppMetaDataFiled = packageParser$package_Class.getDeclaredField("mAppMetaData");
                         mAppMetaDataFiled.setAccessible(true);
                         Bundle mAppMetaData = (Bundle) mAppMetaDataFiled.get(packageParser$package);
-                        if (mAppMetaData != null && mAppMetaData.containsKey("icon") && mAppMetaData.containsKey("pkg")) {
+                        if (mAppMetaData != null && mAppMetaData.containsKey("icon") && mAppMetaData.containsKey("pkg") && mAppMetaData.containsKey("autor")) {
                             String icon = mAppMetaData.getString("icon");
                             String pkg = mAppMetaData.getString("pkg");
+                            String autor = mAppMetaData.getString("autor");
                             itemModel itemModel = new itemModel();
                             itemModel.setPKG(pkg);
+                            itemModel.setAUTOR(autor);
                             itemModel.setService(AppName);
                             itemModel.setImage(icon);
                             arrayList.add(itemModel);

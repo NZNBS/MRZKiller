@@ -6,7 +6,7 @@ import android.widget.ImageView;
 public class itemModel {
 
     String image;
-    String name;
+    String autor;
     String PKG;
     String service;
 
@@ -15,6 +15,12 @@ public class itemModel {
     }
     public void setImage(String image) {
         this.image = image;
+    }
+    public void setAUTOR(String name) {
+        this.autor = name;
+    }
+    public String getAUTOR() {
+        return autor;
     }
     public void setPKG(String name) {
         this.PKG = name;
