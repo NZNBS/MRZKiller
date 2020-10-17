@@ -19,7 +19,7 @@ import xcrash.XCrash;
 
 public class MRZApp extends Application {
 
-    private final String TAG = "MRZ";
+    private final String TAG = "MRZAPP";
 
     protected void attachBaseContext(Context paramContext) {
         super.attachBaseContext(paramContext);
@@ -27,6 +27,7 @@ public class MRZApp extends Application {
             VirtualCore.get().startup(paramContext);
         } catch (Throwable paramConte) {
             paramConte.printStackTrace();
+            Log.d(TAG,paramConte.getMessage());
         }
         // callback for java crash, native crash and ANR
         ICrashCallback callback = new ICrashCallback() {

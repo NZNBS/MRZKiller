@@ -16,11 +16,8 @@ public class itemModel {
     public void setImage(String image) {
         this.image = image;
     }
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
+    public void setPKG(String name) {
+        this.PKG = name;
     }
     public String getPKG() {
         return PKG;

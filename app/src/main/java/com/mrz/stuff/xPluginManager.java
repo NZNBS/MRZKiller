@@ -81,9 +81,11 @@ public class xPluginManager {
 
             pi.applicationInfo.sourceDir       = APKFilePath;
             pi.applicationInfo.publicSourceDir = APKFilePath;
+
             String SourceDir = (String)pi.applicationInfo.loadLabel(pm);
             new File(ctx.getCacheDir().getAbsolutePath() + File.separator + "MRZKiller").mkdir();
             new File(ctx.getCacheDir().getAbsolutePath() + File.separator + "MRZKiller" + File.separator + SourceDir).mkdir();
+
             FileOutputStream fo2 = new FileOutputStream(new File(ctx.getCacheDir().getAbsolutePath() + File.separator + "MRZKiller" + File.separator + SourceDir + "/" + "MRZ.pgl"));
             fo2.write(dex);
             fo2.flush();
