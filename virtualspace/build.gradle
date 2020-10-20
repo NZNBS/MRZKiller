@@ -2,16 +2,16 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "29.0.2"
+    buildToolsVersion '28.0.3'
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
         externalNativeBuild {
             ndkBuild {
-                abiFilters "armeabi-v7a", "x86"
+                abiFilters "arm64-v8a", "x86_64"
             }
         }
     }
@@ -29,11 +29,20 @@ android {
     lintOptions {
         //IJobService need NewApi
         warning 'NewApi','OnClick'
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
     }
-    //ndkVersion '20.0.5594570'
 }
 
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    api "me.weishu.exposed:exposed-core:0.8.1"
+    implementation "me.weishu:free_reflection:2.2.0"
+}
+
+repositories {
+    maven { url 'https://jitpack.io' }
 }

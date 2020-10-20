@@ -121,7 +121,7 @@ static inline bool T$pcrel$b(uint16_t ic) {
 }
 
 static inline bool T2$pcrel$b(uint16_t *ic) {
-    return (ic[0] & 0xf800) == 0xf000 && ((ic[1] & 0xd000) == 0x9000 || ((ic[1] & 0xd000) == 0x8000 && (ic[0] & 0x0380) != 0x0380));
+    return (ic[0] & 0xf800) == 0xf000 && ((ic[1] & 0xd000) == 0x9000 || (ic[1] & 0xd000) == 0x8000 && (ic[0] & 0x0380) != 0x0380);
 }
 
 static inline bool T$pcrel$bl(uint16_t *ic) {
@@ -924,7 +924,9 @@ static void SubstrateHookFunction(SubstrateProcessRef process, void *symbol, voi
 #endif
 
 _extern void MSHookFunction(void *symbol, void *replace, void **result) {
+#ifndef __aarch64__
      SubstrateHookFunction(NULL, symbol, replace, result);
+#endif
 }
 
 #if defined(__APPLE__) && defined(__arm__)

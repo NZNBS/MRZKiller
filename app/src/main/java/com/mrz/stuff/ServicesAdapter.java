@@ -53,7 +53,6 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.viewHo
             }
             uninstallApp(arrayList.get(position).getPKG());
             new File(context.getCacheDir().getAbsolutePath() + "/GAMES/" + arrayList.get(position).getService()).delete();
-            arrayList.remove(position);
         });
         holder.start.setOnClickListener(v -> launchApp(arrayList.get(position).getPKG()));
         byte[] arrayOfByte = Base64.decode(arrayList.get(position).getImage(), 0);

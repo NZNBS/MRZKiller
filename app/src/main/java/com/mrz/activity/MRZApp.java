@@ -2,10 +2,13 @@ package com.mrz.activity;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 
+import com.lody.virtual.client.NativeEngine;
 import com.lody.virtual.client.core.VirtualCore;
+import com.lody.virtual.client.stub.VASettings;
 
 import org.json.JSONObject;
 
@@ -19,16 +22,28 @@ import xcrash.XCrash;
 
 public class MRZApp extends Application {
 
+    private static MRZApp gApp;
+
+    public static MRZApp getApp() {
+        return gApp;
+    }
+
     private final String TAG = "MRZAPP";
 
-    protected void attachBaseContext(Context paramContext) {
-        super.attachBaseContext(paramContext);
-        try {
-            VirtualCore.get().startup(paramContext);
-        } catch (Throwable paramConte) {
-            paramConte.printStackTrace();
-            Log.d(TAG,paramConte.getMessage());
+    protected void attachBaseContext(Context base) {
+		gApp = this;
+        super.attachBaseContext(base);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            NativeEngine.disableJit(Build.VERSION.SDK_INT);
         }
+        VASettings.ENABLE_IO_REDIRECT = true;
+        VASettings.ENABLE_INNER_SHORTCUT = false;
+        try {
+            VirtualCore.get().startup(base);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+		
         // callback for java crash, native crash and ANR
         ICrashCallback callback = new ICrashCallback() {
             @Override
@@ -62,14 +77,14 @@ public class MRZApp extends Application {
                 .setAppVersion("1.2.3-beta456-patch789")
                 .setJavaRethrow(true)
                 .setJavaLogCountMax(10)
-                //.setJavaDumpAllThreadsAllowList(new String[]{"^main$", "^Binder:.*", ".*Finalizer.*"})
-                //.setJavaDumpAllThreadsCountMax(10)
+                .setJavaDumpAllThreadsAllowList(new String[]{"^main$", "^Binder:.*", ".*Finalizer.*"})
+                .setJavaDumpAllThreadsCountMax(10)
                 .setJavaCallback(callback)
                 .setNativeRethrow(true)
                 .setNativeLogCountMax(10)
                 .setNativeDumpAllThreads(true)
-                //.setNativeDumpAllThreadsAllowList(new String[]{"^xcrash\\.sample$", "^Signal Catcher$", "^Jit thread pool$", ".*(R|r)ender.*", ".*Chrome.*"})
-                //.setNativeDumpAllThreadsCountMax(10)
+                .setNativeDumpAllThreadsAllowList(new String[]{"^xcrash\\.sample$", "^Signal Catcher$", "^Jit thread pool$", ".*(R|r)ender.*", ".*Chrome.*"})
+                .setNativeDumpAllThreadsCountMax(10)
                 .setNativeCallback(callback)
                 .setAnrRethrow(true)
                 .setAnrLogCountMax(10)

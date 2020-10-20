@@ -201,20 +201,20 @@ public class xPluginManager {
             try {
                 ((Activity)ctx).runOnUiThread(new Runnable() {
                     public void run() {
-                        pd.setTitle("Checking");
-                        pd.setMessage("Checking Things...");
+                        pd.setTitle("Decrypting..");
+                        pd.setMessage("Loading keys...");
                         pd.setIndeterminate(true);
                         pd.setCancelable(false);
                         pd.setCanceledOnTouchOutside(false);
                         pd.show();
                     }
                 });
-                Thread.sleep(700L);
+                Thread.sleep(2000L);
                 ((Activity)ctx).runOnUiThread(new Runnable() {
                     public void run() {
                         if (!isGameInstalled(pkg)) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
-                            builder.setMessage("Please install the game "+AppName+" to continue with this app.");
+                            builder.setMessage("Please install the game "+AppName+" to add this plugin.");
                             builder.setTitle("Game Not Found!!!").setPositiveButton("Download It!", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface param3DialogInterface, int param3Int) {
                                     StringBuilder stringBuilder = new StringBuilder();
@@ -223,7 +223,18 @@ public class xPluginManager {
                                     ((Activity)ctx).startActivity(new Intent("android.intent.action.VIEW", Uri.parse(stringBuilder.toString())));
                                 }
                             }).setNeutralButton("Later", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface param3DialogInterface, int param3Int) { ((Activity)ctx).finish(); }
+                                public void onClick(DialogInterface param3DialogInterface, int param3Int) {
+                                    File mrz = new File(ctx.getCacheDir().getAbsolutePath() + File.separator + "MRZKiller" + File.separator + AppName + File.separator);
+                                    if (mrz.isDirectory())
+                                    {
+                                        String[] children = mrz.list();
+                                        for (int i = 0; i < children.length; i++)
+                                        {
+                                            new File(mrz, children[i]).delete();
+                                        }
+                                    }
+                                    new File(ctx.getCacheDir().getAbsolutePath() + "/GAMES/" + AppName).delete();
+                                }
                             }).setCancelable(false).create().show();
                             flag = 0;
                             pd.dismiss();
@@ -244,7 +255,7 @@ public class xPluginManager {
                 }
                 ((Activity)ctx).runOnUiThread(new Runnable() {
                     public void run() { pd.dismiss();
-                        Toast.makeText(ctx,"The game is avariable in Plugin list", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ctx,"Done :)", Toast.LENGTH_SHORT).show();
                     }
                 });
                 return;
