@@ -1,6 +1,5 @@
 package com.mrz.stuff;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,6 +13,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.lody.virtual.client.core.VirtualCore;
 import com.lody.virtual.client.ipc.VActivityManager;
 import com.mrz.R;
@@ -21,6 +22,7 @@ import com.mrz.R;
 import java.io.File;
 import java.util.ArrayList;
 
+@SuppressWarnings("ALL")
 public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.viewHolder> {
 
     Context context;
@@ -43,23 +45,30 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.viewHo
         holder.autor.setText(arrayList.get(position).getAUTOR());
         holder.delete.setOnClickListener(v -> {
             File mrz = new File(context.getCacheDir().getAbsolutePath() + File.separator + "MRZKiller" + File.separator + arrayList.get(position).getService() + File.separator);
-            if (mrz.isDirectory())
-            {
+            if (mrz.isDirectory()) {
                 String[] children = mrz.list();
-                for (int i = 0; i < children.length; i++)
-                {
+                for (int i = 0; i < children.length; i++) {
                     new File(mrz, children[i]).delete();
                 }
             }
             uninstallApp(arrayList.get(position).getPKG());
             new File(context.getCacheDir().getAbsolutePath() + "/GAMES/" + arrayList.get(position).getService()).delete();
+            arrayList.remove(position);
         });
-        holder.start.setOnClickListener(v -> launchApp(arrayList.get(position).getPKG()));
+        holder.start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchApp(arrayList.get(position).getPKG());
+                Snackbar.make(v, "Starting "+ arrayList.get(position).getService(), BaseTransientBottomBar.LENGTH_LONG).show();
+            }
+        });
         byte[] arrayOfByte = Base64.decode(arrayList.get(position).getImage(), 0);
         Bitmap bitmap = BitmapFactory.decodeByteArray(arrayOfByte, 0, arrayOfByte.length);
         holder.img.setImageBitmap(bitmap);
     }
+
     public void uninstallApp(String paramString) { VirtualCore.get().uninstallPackage(paramString); }
+
     public void launchApp(String paramString) { VActivityManager.get().startActivity(VirtualCore.get().getLaunchIntent(paramString, 0), 0); }
 
     @Override

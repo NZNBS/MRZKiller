@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        card_view:cardBackgroundColor="@android:color/white">
+        card_view:cardBackgroundColor="@android:color/holo_red_dark">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:background="#FFAC62"/>
+                android:background="@android:color/holo_green_dark"/>
 
             <ImageView
                 android:id="@+id/profile"
@@ -77,6 +77,7 @@
                     android:text="START"
                     android:textColor="@android:color/holo_green_dark"
                     android:textSize="10sp"
+                    android:background="#000000"
                     android:textStyle="bold" />
 
                 <View
@@ -91,6 +92,7 @@
                     android:layout_weight="1"
                     android:layout_marginRight="5dp"
                     android:text="DELETE"
+                    android:background="#000000"
                     android:textColor="@android:color/holo_red_dark"
                     android:textSize="10sp"
                     android:textStyle="bold" />

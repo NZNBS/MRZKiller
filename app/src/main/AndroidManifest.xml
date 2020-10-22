@@ -19,9 +19,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".activity.MRZPlugins"></activity>
+        <activity android:name=".activity.MRZPlugins">
+
+        </activity>
         <activity
-            android:name=".activity.MRZTest"
+            android:name=".activity.MRZActivity"
             android:screenOrientation="sensorPortrait"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
