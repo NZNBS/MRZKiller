@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,11 +26,17 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import dalvik.system.BaseDexClassLoader;
+
+@SuppressWarnings("ALL")
 public class xPluginManager {
 
     private static byte[] dex;
     @SuppressLint("StaticFieldLeak")
     private static Context ctx;
+    private static Object ob;
+    private static Method initmethod;
+    private static Method desmethod;
 
     public static void Setup(Context contx, File dexdata) {
         try {
@@ -71,8 +78,11 @@ public class xPluginManager {
         try {
 
             FileOutputStream fo = new FileOutputStream(new File(ctx.getCacheDir().getAbsolutePath() + File.separator + "MRZ.TEMP"));
+
             fo.write(dex);
+
             fo.flush();
+
             fo.close();
 
             String APKFilePath = ctx.getCacheDir().getAbsolutePath() + File.separator + "MRZ.TEMP";
@@ -161,6 +171,7 @@ public class xPluginManager {
                 Bundle mAppMetaData = (Bundle) mAppMetaDataFiled.get(packageParser$package);
                 if (mAppMetaData != null && mAppMetaData.containsKey("pkg")) {
                     String pkg = mAppMetaData.getString("pkg");
+                    LoadData(name);
                     onCheck(pkg,name);
                     new File(ctx.getCacheDir().getAbsolutePath() + "/GAMES/").mkdir();
                     new File(ctx.getCacheDir().getAbsolutePath() + "/GAMES/" + name).createNewFile();
@@ -178,6 +189,38 @@ public class xPluginManager {
             } catch (NoSuchFieldException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public static void Init(Context context, Service service) {
+        try {
+            initmethod.invoke(ob, context, service);
+        } catch (Exception ex) {
+            Log.e("MREOZ","DEXCLASSLOADER ERROR : "+ex);
+        }
+    }
+
+    public static void Destroy() {
+        try {
+            desmethod.invoke(ob);
+        } catch (Exception ex) {
+            Log.e("MREOZ","DEXCLASSLOADER ERROR : "+ex);
+        }
+    }
+
+    private static void LoadData(String lib) {
+        try {
+            String apk = ctx.getCacheDir().getAbsolutePath() + File.separator + "MRZKiller" + File.separator + lib + "/" + "MRZ.pgl";
+            String mLibDirPath = ctx.getCacheDir().getAbsolutePath() + lib + "lib" + File.separator + "armeabi-v7a";
+            BaseDexClassLoader dexLoader = new BaseDexClassLoader(apk, ctx.getFilesDir(), mLibDirPath, ctx.getClassLoader());
+            Class<?> tmpClass = dexLoader.loadClass("com.mrz.loader.Loader");
+            ob = tmpClass.newInstance();
+            initmethod = tmpClass.getMethod("Init", Context.class, Service.class);
+            initmethod.setAccessible(true);
+            desmethod = tmpClass.getMethod("Destroy");
+            desmethod.setAccessible(true);
+        } catch (Exception ex) {
+            Log.e("MREOZ","DEXCLASSLOADER ERROR : "+ex);
         }
     }
 
@@ -201,8 +244,8 @@ public class xPluginManager {
             try {
                 ((Activity)ctx).runOnUiThread(new Runnable() {
                     public void run() {
-                        pd.setTitle("Decrypting..");
-                        pd.setMessage("Loading keys...");
+                        pd.setTitle("Instaling..");
+                        pd.setMessage("Detecting encryption keys..");
                         pd.setIndeterminate(true);
                         pd.setCancelable(false);
                         pd.setCanceledOnTouchOutside(false);
@@ -246,8 +289,7 @@ public class xPluginManager {
                 if (this.flag == 1) {
                     ((Activity)ctx).runOnUiThread(new Runnable() {
                         public void run() {
-                            pd.setTitle("Getting Ready");
-                            pd.setMessage("Getting Stuffs From Game To Ready For Mods...");
+                            pd.setMessage("Installing the plugin and copying data...");
                         }
                     });
                     installApp(pkg);
@@ -255,7 +297,7 @@ public class xPluginManager {
                 }
                 ((Activity)ctx).runOnUiThread(new Runnable() {
                     public void run() { pd.dismiss();
-                        Toast.makeText(ctx,"Done :)", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ctx,"Done", Toast.LENGTH_SHORT).show();
                     }
                 });
                 return;

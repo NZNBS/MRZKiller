@@ -1,6 +1,9 @@
 package com.mrz.activity;
 
+import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,7 +11,6 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
@@ -21,12 +23,23 @@ import java.io.IOException;
 import java.util.List;
 
 public class MRZActivity extends AppCompatActivity {
-
+    static Context ctx;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Ask();
+        ctx = this;
+    }
+
+    public static void ReloadList(Context context) {
+        try {
+            ((Activity)context).finish();
+            Intent intent = new Intent(ctx, MRZPlugins.class);
+            ctx.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void Ask() {
@@ -91,7 +104,6 @@ public class MRZActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     @Override

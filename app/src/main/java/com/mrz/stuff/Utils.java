@@ -2,6 +2,8 @@ package com.mrz.stuff;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -10,6 +12,7 @@ import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -185,6 +188,14 @@ public class Utils {
                         String signapk = md5Signature+sha1Signature+charSignature+cert.getPublicKey().toString();
 
                         if(!signapk.equals(GetSignature())){
+
+                            ClipboardManager clipboard = (ClipboardManager) ctx.getSystemService(Context.CLIPBOARD_SERVICE);
+
+                            ClipData clip = ClipData.newPlainText("text",  signapk);
+
+                            clipboard.setPrimaryClip(clip);
+
+                            Toast.makeText(ctx, "Copied :)",Toast.LENGTH_LONG).show();
 
                             Log.e("SIGNATURE","The signature is incorrect !!THIS LEETH!!");
 

@@ -18,6 +18,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+@SuppressWarnings("ALL")
 public class MRZPlugins extends AppCompatActivity {
 
     ArrayList<itemModel> arrayList;
@@ -30,6 +31,14 @@ public class MRZPlugins extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view1);
         arrayList = new ArrayList<>();
         addServices();
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     public void addServices() {

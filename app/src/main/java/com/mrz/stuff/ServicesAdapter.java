@@ -18,6 +18,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.lody.virtual.client.core.VirtualCore;
 import com.lody.virtual.client.ipc.VActivityManager;
 import com.mrz.R;
+import com.mrz.activity.MRZActivity;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.viewHo
             }
             uninstallApp(arrayList.get(position).getPKG());
             new File(context.getCacheDir().getAbsolutePath() + "/GAMES/" + arrayList.get(position).getService()).delete();
-            arrayList.remove(position);
+            MRZActivity.ReloadList(context);
         });
         holder.start.setOnClickListener(new View.OnClickListener() {
             @Override
