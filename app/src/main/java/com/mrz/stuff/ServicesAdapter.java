@@ -1,6 +1,7 @@
 package com.mrz.stuff;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
@@ -18,7 +19,9 @@ import com.google.android.material.snackbar.Snackbar;
 import com.lody.virtual.client.core.VirtualCore;
 import com.lody.virtual.client.ipc.VActivityManager;
 import com.mrz.R;
+import com.mrz.activity.Loader;
 import com.mrz.activity.MRZActivity;
+import com.mrz.activity.MRZPlugins;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -70,7 +73,15 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.viewHo
 
     public void uninstallApp(String paramString) { VirtualCore.get().uninstallPackage(paramString); }
 
-    public void launchApp(String paramString) { VActivityManager.get().startActivity(VirtualCore.get().getLaunchIntent(paramString, 0), 0); }
+    public void launchApp(String paramString) {
+        try {
+            VActivityManager.get().startActivity(VirtualCore.get().getLaunchIntent(paramString, 0), 0);
+            Intent intent = new Intent(context, Loader.class);
+            context.startService(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public int getItemCount() {

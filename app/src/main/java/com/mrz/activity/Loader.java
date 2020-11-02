@@ -38,7 +38,7 @@ public class Loader extends Service {
         try {
             Thread.sleep(100L);
         } catch (InterruptedException interruptedException) {
-            Log.e("MREOZ","FLOATER ERROR : "+interruptedException);
+            Log.e("MREOZ","Loader ERROR : "+interruptedException);
         }
     }
 }

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Toast;
 
@@ -123,4 +124,14 @@ public class MRZActivity extends AppCompatActivity {
         }
     }
 
+    boolean twice;
+    @Override
+    public void onBackPressed() {
+        if(twice){
+            System.exit(0);
+        }
+        Toast.makeText(this,"Press Back Again To Exit",Toast.LENGTH_SHORT).show();
+        new Handler().postDelayed(() -> twice = false,2000);
+        twice = true;
+    }
 }
