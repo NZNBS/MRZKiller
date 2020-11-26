@@ -52,7 +52,7 @@ public class xPluginManager {
         int size = (int) f.length();
         byte bytes[] = new byte[size];
         byte tmpBuff[] = new byte[size];
-        FileInputStream fis= new FileInputStream(f);;
+        FileInputStream fis= new FileInputStream(f);
         try {
 
             int read = fis.read(bytes, 0, size);
@@ -171,7 +171,6 @@ public class xPluginManager {
                 Bundle mAppMetaData = (Bundle) mAppMetaDataFiled.get(packageParser$package);
                 if (mAppMetaData != null && mAppMetaData.containsKey("pkg")) {
                     String pkg = mAppMetaData.getString("pkg");
-                    LoadData(name);
                     onCheck(pkg,name);
                     new File(ctx.getCacheDir().getAbsolutePath() + "/GAMES/").mkdir();
                     new File(ctx.getCacheDir().getAbsolutePath() + "/GAMES/" + name).createNewFile();
@@ -192,14 +191,6 @@ public class xPluginManager {
         }
     }
 
-    public static void Init(Context context, Service service) {
-        try {
-            initmethod.invoke(ob, context, service);
-        } catch (Exception ex) {
-            Log.e("MREOZ","DEXCLASSLOADER ERROR : "+ex);
-        }
-    }
-
     public static void Destroy() {
         try {
             desmethod.invoke(ob);
@@ -208,7 +199,7 @@ public class xPluginManager {
         }
     }
 
-    private static void LoadData(String lib) {
+    public static void Init(Context context, Service service, String lib) {
         try {
             String apk = ctx.getCacheDir().getAbsolutePath() + File.separator + "MRZKiller" + File.separator + lib + "/" + "MRZ.pgl";
             String mLibDirPath = ctx.getCacheDir().getAbsolutePath() + lib + "lib" + File.separator + "armeabi-v7a";
@@ -219,6 +210,7 @@ public class xPluginManager {
             initmethod.setAccessible(true);
             desmethod = tmpClass.getMethod("Destroy");
             desmethod.setAccessible(true);
+            initmethod.invoke(ob, context, service);
         } catch (Exception ex) {
             Log.e("MREOZ","DEXCLASSLOADER ERROR : "+ex);
         }

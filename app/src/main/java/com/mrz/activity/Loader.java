@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.mrz.stuff.xPluginManager;
 
+
 public class Loader extends Service {
+    private String NAME;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -17,7 +20,10 @@ public class Loader extends Service {
     }
 
     private void Start() {
-        xPluginManager.Init(this, this);
+        if (!NAME.isEmpty()) {
+            xPluginManager.Init(this, this, NAME);
+            Toast.makeText(this,"Starting " + NAME, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -31,7 +37,7 @@ public class Loader extends Service {
         return null;
     }
 
-    public int onStartCommand(Intent paramIntent, int paramInt1, int paramInt2) { return Service.START_NOT_STICKY; }
+    public int onStartCommand(Intent paramIntent, int paramInt1, int paramInt2) { NAME = paramIntent.getStringExtra("NAME"); return Service.START_NOT_STICKY; }
 
     public void onTaskRemoved(Intent paramIntent) {
         stopSelf();

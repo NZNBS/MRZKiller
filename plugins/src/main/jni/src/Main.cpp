@@ -25,8 +25,6 @@
 #include "Menu/Sounds.h"
 #include "Menu/Menu.h"
 
-#include "Toast.h"
-
 #if defined(__aarch64__) //Compile for arm64 lib only
 #include <src/And64InlineHook/And64InlineHook.hpp>
 #else //Compile for armv7 lib only. Do not worry about greyed out highlighting code, it still works

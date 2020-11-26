@@ -62,7 +62,7 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.viewHo
         holder.start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchApp(arrayList.get(position).getPKG());
+                launchApp(arrayList.get(position).getPKG(), arrayList.get(position).getService());
                 Snackbar.make(v, "Starting "+ arrayList.get(position).getService(), BaseTransientBottomBar.LENGTH_LONG).show();
             }
         });
@@ -73,10 +73,11 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.viewHo
 
     public void uninstallApp(String paramString) { VirtualCore.get().uninstallPackage(paramString); }
 
-    public void launchApp(String paramString) {
+    public void launchApp(String pkg, String NAME) {
         try {
-            VActivityManager.get().startActivity(VirtualCore.get().getLaunchIntent(paramString, 0), 0);
+            VActivityManager.get().startActivity(VirtualCore.get().getLaunchIntent(pkg, 0), 0);
             Intent intent = new Intent(context, Loader.class);
+            intent.putExtra("NAME", NAME);
             context.startService(intent);
         } catch (Exception e) {
             e.printStackTrace();
